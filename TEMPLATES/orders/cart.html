@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} |cart {% endblock %}
+{% block content %}
+<div class="my-form container p-5 my-5 rounded border border-warning">
+
+    <h2 class="text-center">cart</h2>
+
+    <hr>
+    {%if order %}
+
+    
+
+    <h5>
+        full name : {{order.user.first_name|add:' '|add:order.user.last_name}}
+        <hr>
+        order number : {{order.id}}
+        total : {{total}}
+    </h5>
+    <hr>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">product</th>
+            <th scope="col">Image</th>
+            <th scope="col">quantitty</th>
+            <th scope="col">price</th>
+            <th scope="col">total</th>
+            <th scope="col">remove</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for line in orderditails %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{line.product.name}}</td>
+            <td><img src="{{line.product.photo.url}}" width="80px" height="80px" alt=""></td>
+            <td>{{ line.quantity }}</td>
+            <td>{{line.price}}</td>
+            <td style="font-weight: bold;color:darkred">{%widthratio line.quantity 1 line.price%}$</td>
+            <td><a href="{% url 'remove' id=line.id %}" class="btn btn-outline-danger btn-sm">remove</a></td>
+          </tr>
+          {% empty  %}
+          {% endfor %}
+
+        </tbody>
+      </table>
+    <hr>
+    {% else %}
+    <h5 class="alert alert-warning">
+        no orders
+    </h5>
+    {% endif %}
+ 
+</div>
+{% endblock %}
